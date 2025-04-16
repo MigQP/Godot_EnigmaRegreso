@@ -1,9 +1,17 @@
-[gd_scene load_steps=18 format=3 uid="uid://nyy15b2rrq7y"]
+[gd_scene load_steps=34 format=3 uid="uid://nyy15b2rrq7y"]
 
-[ext_resource type="Texture2D" uid="uid://cdsujdaln8ebs" path="res://sprites/desert background1.png" id="1_2m3ne"]
+[ext_resource type="Texture2D" uid="uid://b0fxukakycy66" path="res://sprites/backgroundTop.png" id="1_may2w"]
 [ext_resource type="Script" uid="uid://gvvf0t5prkr2" path="res://scripts/SwipeDetector.gd" id="2_6rmiu"]
 [ext_resource type="Texture2D" uid="uid://b34nredcmk0t8" path="res://sprites/push_01.png" id="2_jd3vk"]
-[ext_resource type="Script" uid="uid://dsnok5tnl1tcs" path="res://scripts/FinderAnimPlay.gd" id="4_hrfnt"]
+[ext_resource type="AudioStream" uid="uid://dgehofv3buona" path="res://sound/dig02.wav" id="5_3yn2j"]
+[ext_resource type="Texture2D" uid="uid://b3nq0swbhil13" path="res://sprites/backgroundBotton.png" id="5_xkvow"]
+[ext_resource type="Texture2D" uid="uid://84i3f17ux70y" path="res://sprites/forensic_number.png" id="6_5hyx2"]
+[ext_resource type="Texture2D" uid="uid://c2h5cifjady61" path="res://sprites/tv_static.png" id="6_xkvow"]
+[ext_resource type="AudioStream" uid="uid://bk1bjjlhpayyn" path="res://music/backgroundMusic.mp3" id="7_5hyx2"]
+[ext_resource type="FontFile" uid="uid://qdebmwj4db71" path="res://font/OPTIVenus-BoldExtended.otf" id="7_77mc5"]
+[ext_resource type="Script" uid="uid://dxqbfwlitxeuw" path="res://scripts/TextChanger.gd" id="7_esee2"]
+[ext_resource type="FontFile" uid="uid://bh775me3bwin5" path="res://font/FingerzFilled.otf" id="9_wtmc4"]
+[ext_resource type="AudioStream" uid="uid://wji48yd03371" path="res://sound/721496__synth2__static-tv-sound.wav" id="10_or7pa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6rmiu"]
 atlas = ExtResource("2_jd3vk")
@@ -97,13 +105,85 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_al2jr"]
+atlas = ExtResource("6_xkvow")
+region = Rect2(0, 360, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4luus"]
+atlas = ExtResource("6_xkvow")
+region = Rect2(0, 720, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gamuk"]
+atlas = ExtResource("6_xkvow")
+region = Rect2(0, 1080, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dif34"]
+atlas = ExtResource("6_xkvow")
+region = Rect2(0, 0, 480, 360)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xj0hi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_al2jr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4luus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gamuk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dif34")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_3yn2j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title/TitleText:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_wtmc4"]
+resource_name = "start"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title/TitleText:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333334, 0.633333, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3yn2j"]
+_data = {
+&"RESET": SubResource("Animation_3yn2j"),
+&"start": SubResource("Animation_wtmc4")
+}
+
 [node name="Node2D" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 2
-position = Vector2(576, 327)
-scale = Vector2(5.74, 4.98438)
-texture = ExtResource("1_2m3ne")
+[node name="Top" type="Sprite2D" parent="."]
+position = Vector2(578.25, 328)
+scale = Vector2(5.877, 5.088)
+texture = ExtResource("1_may2w")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(578, 324)
@@ -115,7 +195,92 @@ position = Vector2(-2.99994, 47)
 scale = Vector2(0.449, 0.471)
 sprite_frames = SubResource("SpriteFrames_al2jr")
 animation = &"dig"
+autoplay = "dig"
 frame = 11
 frame_progress = 1.0
 speed_scale = 1.3
-script = ExtResource("4_hrfnt")
+
+[node name="DigSound" type="AudioStreamPlayer2D" parent="Camera2D"]
+stream = ExtResource("5_3yn2j")
+volume_db = -0.4
+
+[node name="Bottom" type="Sprite2D" parent="."]
+position = Vector2(579, 324)
+scale = Vector2(5.877, 5.088)
+texture = ExtResource("5_xkvow")
+
+[node name="Static" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(580, 366.5)
+scale = Vector2(2.474, 2.018)
+sprite_frames = SubResource("SpriteFrames_xj0hi")
+autoplay = "default"
+frame_progress = 0.674145
+script = ExtResource("7_esee2")
+
+[node name="ForensicNumber" type="Sprite2D" parent="Static"]
+position = Vector2(0, -51.37)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("6_5hyx2")
+
+[node name="Number" type="Label" parent="Static"]
+offset_left = -72.452
+offset_top = -117.173
+offset_right = 74.183
+offset_bottom = 36.427
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 106
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextForensic" type="Label" parent="Static"]
+offset_left = -229.665
+offset_top = 51.26
+offset_right = 194.96
+offset_bottom = 144.26
+scale = Vector2(1.08, 1.08)
+theme_override_colors/font_color = Color(0.901961, 0.858824, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("7_77mc5")
+theme_override_font_sizes/font_size = 20
+text = "como encontrar una fosa"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="NoiseStatic" type="AudioStreamPlayer2D" parent="Static"]
+stream = ExtResource("10_or7pa")
+volume_db = -0.99
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(580, 289)
+scale = Vector2(0.72875, 0.594167)
+stream = ExtResource("7_5hyx2")
+volume_db = -0.315
+pitch_scale = 0.5
+autoplay = true
+parameters/looping = false
+
+[node name="Title" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_3yn2j")
+}
+autoplay = "start"
+
+[node name="TitleText" type="Label" parent="Title"]
+offset_left = 82.955
+offset_right = 1082.95
+offset_bottom = 792.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_wtmc4")
+theme_override_font_sizes/font_size = 155
+text = "el
+enigma
+del
+regreso
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
